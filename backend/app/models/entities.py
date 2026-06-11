@@ -29,6 +29,7 @@ class Subscription(Base):
     base: Mapped[str] = mapped_column(String(3))
     quote: Mapped[str] = mapped_column(String(3))
     target_rate: Mapped[float] = mapped_column(Float)
+    direction: Mapped[str] = mapped_column(String(4), default="both")
     notify_url: Mapped[str] = mapped_column(String(300))
     email: Mapped[str] = mapped_column(String(120), default="")
     active: Mapped[bool] = mapped_column(Boolean, default=True)
