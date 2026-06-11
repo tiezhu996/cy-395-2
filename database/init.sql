@@ -20,3 +20,13 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   email VARCHAR(120) DEFAULT '',
   active BOOLEAN DEFAULT TRUE
 );
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name='subscriptions' AND column_name='direction'
+  ) THEN
+    ALTER TABLE subscriptions ADD COLUMN direction VARCHAR(4) NOT NULL DEFAULT 'both';
+  END IF;
+END $$;

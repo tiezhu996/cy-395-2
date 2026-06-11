@@ -3,6 +3,7 @@ from app.middleware.api_key import ApiKeyMiddleware
 from app.models.base import Base, SessionLocal, engine
 from app.routers import apikey, convert, exchange, subscribe
 from app.services.exchange_service import seed_rates
+from app.services.subscription_service import ensure_direction_column
 from app.tasks.scheduler import start_scheduler
 from app.utils.exceptions import register_exception_handlers
 
@@ -18,6 +19,7 @@ app.include_router(subscribe.router)
 @app.on_event("startup")
 def startup() -> None:
     Base.metadata.create_all(bind=engine)
+    ensure_direction_column()
     db = SessionLocal()
     try:
         seed_rates(db)
